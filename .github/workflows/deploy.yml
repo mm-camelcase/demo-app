@@ -1,0 +1,46 @@
+name: Build and Deploy to S3
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  aws_role: 'arn:aws:iam::966412459053:role/CCAwsInfraDemoGithubAction'
+  aws_region: 'eu-west-1'
+  bucket_name: 'demo-cc-infra-demo-app'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Creds
+      - name: Set AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.aws_role }}
+          aws-region: ${{ env.aws_region }}
+
+      # Step 3: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # Step 4: Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 5: Build the app
+      - name: Build the app
+        run: npm run build
+
+      # Step 6: Deploy to S3
+      - name: Deploy to S3
+        run: |
+          aws s3 sync dist/ s3://${{ env.bucket_name }} --delete --acl public-read
