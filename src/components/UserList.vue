@@ -41,7 +41,7 @@ export default {
       this.loading = true;
       this.error = null;
       try {
-        const response = await axios.get('https://api.camelcase.club/api/users', {
+        const response = await axios.get('https://api.camelcase.club/internal/api/users', {
           headers: {
             Accept: '*/*',
           },
