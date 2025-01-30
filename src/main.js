@@ -12,7 +12,7 @@ keycloak
     onLoad: "login-required", // Require login before the app loads
     //checkLoginIframe: false, // Optional: Disable iframe checking for simplicity
     flow: "standard",
-    clientSecret: "AYyxGdiab7SoxrGCbZO1r2akiWsndDPC", // Add client secret for confidential clients
+    //clientSecret: "AYyxGdiab7SoxrGCbZO1r2akiWsndDPC", // Add client secret for confidential clients
   })
   .then(() => {
     const app = createApp(App);
