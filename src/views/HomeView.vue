@@ -45,7 +45,7 @@ export default {
     // Fetch user details on component mount
     onMounted(() => {
       if (keycloak && keycloak.authenticated) {
-        username.value = keycloak.tokenParsed?.preferred_username || "User";
+        username.value = keycloak.tokenParsed?.given_name || "User";
       } else {
         console.error("Keycloak instance is not available or not authenticated.");
       }
