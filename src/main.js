@@ -46,10 +46,36 @@ import 'vuetify/styles'; // Ensure styles are loaded
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 
+// const vuetify = createVuetify({
+//   components,
+//   directives,
+// });
+
 const vuetify = createVuetify({
-  components,
-  directives,
-});
+    components,
+    directives,
+    theme: {
+      defaultTheme: 'myCustomTheme',
+      themes: {
+        myCustomTheme: {
+          dark: false,
+          colors: {
+            primary: '#434343', 
+            secondary: '#F7F7F7', 
+            accent: '#82B1FF',
+            error: '#F7F7F7',
+            info: '#2196F3',
+            success: '#4CAF50',
+            warning: '#FFC107',
+          },
+        },
+      },
+    },
+  });
+
+//   $primary: #434343;
+// $secondary: #F7F7F7;
+// $light: #FFFFFF;
 
 // const app = createApp(App);
 // app.use(router);

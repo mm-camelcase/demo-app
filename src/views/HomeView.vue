@@ -1,33 +1,3 @@
-<!-- <template>
-  <div class="home-view">
-    <h1>Demo App</h1>
-    <UserList />
-  </div>
-</template>
-
-<script>
-import UserList from '@/components/UserList.vue';
-
-export default {
-  name: 'HomeView',
-  components: {
-    UserList,
-  },
-};
-</script>
-
-<style scoped>
-.home-view {
-  text-align: center;
-  font-family: Arial, sans-serif;
-}
-
-h1 {
-  color: #333;
-}
-</style> -->
-
-
 <template>
   <div class="home-view">
     <v-app>
@@ -40,67 +10,68 @@ h1 {
       </v-app-bar>
 
       <!-- Main Content -->
-      <v-container>
-        <h1>Welcome to the Demo App</h1>
-        <UserList />
-      </v-container>
+      <v-main>
+        <v-container class="mt-5">
+          <UserList />
+        </v-container>
+      </v-main>
+
+      <!-- Footer -->
+      <v-footer app color="secondary" dark height="40px">
+        <v-container>
+          <v-row justify="center">
+            <v-col class="text-center" cols="12">
+              <p>&copy; 2024 Camelcase Ltd.</p>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-footer>
     </v-app>
   </div>
 </template>
 
 <script>
+import { inject, onMounted, ref } from "vue";
 import UserList from "@/components/UserList.vue";
-import { inject } from "vue";
 
 export default {
   name: "HomeView",
-  components: {
-    UserList,
-  },
-  data() {
-    return {
-      username: null, // To store the logged-in user's name
-    };
-  },
+  components: { UserList },
   setup() {
-    // Access the globally provided Keycloak instance
+    // Inject the Keycloak instance
     const keycloak = inject("keycloak");
+    const username = ref(null);
 
-    // Return the Keycloak instance to use in the template
-    return { keycloak };
-  },
-  mounted() {
-    // Fetch user details from the Keycloak token
-    const keycloak = this.$options.setup().keycloak;
+    // Fetch user details on component mount
+    onMounted(() => {
+      if (keycloak && keycloak.authenticated) {
+        username.value = keycloak.tokenParsed?.preferred_username || "User";
+      } else {
+        console.error("Keycloak instance is not available or not authenticated.");
+      }
+    });
 
-    if (keycloak && keycloak.authenticated) {
-      this.username = keycloak.tokenParsed?.preferred_username || "User";
-    }
-  },
-  methods: {
-    logout() {
-      // Perform Keycloak logout and redirect to the login page
-      const keycloak = this.$options.setup().keycloak;
+    // Logout function
+    const logout = () => {
       if (keycloak) {
         keycloak.logout({ redirectUri: window.location.origin });
+      } else {
+        console.error("Keycloak instance is not available.");
       }
-    },
+    };
+
+    return { username, logout };
   },
 };
 </script>
 
 <style scoped>
 .home-view {
-  text-align: center;
+  text-align: left;
   font-family: Arial, sans-serif;
-}
-
-h1 {
-  color: #333;
 }
 
 .v-btn {
   text-transform: capitalize;
 }
 </style>
-
