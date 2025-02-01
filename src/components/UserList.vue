@@ -55,38 +55,88 @@
   </div>
 </template>
 
+<!-- <script> -->
+// import axios from "axios";
+
+// export default {
+//   name: "UserList",
+//   data() {
+//     return {
+//       users: [],
+//       loading: false,
+//       error: null,
+//     };
+//   },
+//   methods: {
+//     async fetchUsers() {
+//       this.loading = true;
+//       this.error = null;
+//       try {
+//         const response = await axios.get(
+//           "https://api.camelcase.club/internal/api/users",
+//           {
+//             headers: {
+//               Accept: "*/*",
+//             },
+//           }
+//         );
+//         this.users = response.data;
+//       } catch (err) {
+//         this.error = "Failed to fetch users. Please try again later.";
+//       } finally {
+//         this.loading = false;
+//       }
+//     },
+//   },
+// };
+<!-- </script> -->
+
 <script>
+import { inject, ref } from "vue";
 import axios from "axios";
 
 export default {
   name: "UserList",
-  data() {
-    return {
-      users: [],
-      loading: false,
-      error: null,
-    };
-  },
-  methods: {
-    async fetchUsers() {
-      this.loading = true;
-      this.error = null;
+  setup() {
+    const keycloak = inject("keycloak");
+    const users = ref([]);
+    const loading = ref(false);
+    const error = ref(null);
+
+    const fetchUsers = async () => {
+      loading.value = true;
+      error.value = null;
+
+      if (!keycloak || !keycloak.authenticated) {
+        error.value = "User is not authenticated.";
+        loading.value = false;
+        return;
+      }
+
       try {
+        // Ensure token is fresh
+        await keycloak.updateToken(10);
+
+        // API request with token
         const response = await axios.get(
           "https://api.camelcase.club/internal/api/users",
           {
             headers: {
+              Authorization: `Bearer ${keycloak.token}`,
               Accept: "*/*",
             },
           }
         );
-        this.users = response.data;
+        users.value = response.data;
       } catch (err) {
-        this.error = "Failed to fetch users. Please try again later.";
+        error.value = "Failed to fetch users. Please try again later.";
+        console.error(err);
       } finally {
-        this.loading = false;
+        loading.value = false;
       }
-    },
+    };
+
+    return { users, loading, error, fetchUsers };
   },
 };
 </script>
