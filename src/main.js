@@ -50,11 +50,6 @@ const vuetify = createVuetify({
 
 const isAuthEnabled = process.env.VUE_APP_AUTH_ENABLED === 'true';
 
-//const isAuthEnabled = false;
-console.log(isAuthEnabled);
-
-console.log('VUE_APP_AUTH_ENABLED:', process.env.VUE_APP_AUTH_ENABLED);
-
 // if (isAuthEnabled) {
 //     keycloak
 //         .init({
