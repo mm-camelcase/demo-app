@@ -1,10 +1,30 @@
+// import Keycloak from "keycloak-js";
+
+// // Create a Keycloak instance with your configuration
+// const keycloak = new Keycloak({
+//   url: "https://auth.camelcase.club", // Keycloak base URL
+//   realm: "demo-realm", // Keycloak realm name
+//   clientId: "static-app", // Keycloak client ID
+// });
+
+// export default keycloak;
+
 import Keycloak from "keycloak-js";
 
-// Create a Keycloak instance with your configuration
-const keycloak = new Keycloak({
-  url: "https://auth.camelcase.club", // Keycloak base URL
-  realm: "demo-realm", // Keycloak realm name
-  clientId: "static-app", // Keycloak client ID
-});
+const isAuthEnabled = process.env.VUE_APP_AUTH_ENABLED === "true";
 
-export default keycloak;
+const keycloakInstance = isAuthEnabled
+    ? new Keycloak({
+          url: "https://auth.camelcase.club",
+          realm: "demo-realm",
+          clientId: "static-app",
+      })
+    : {
+          init: () => Promise.resolve(),
+          authenticated: true,
+          token: "mock-token",
+          logout: () => console.log("Mock logout"),
+          updateToken: () => Promise.resolve(),
+      };
+
+export default keycloakInstance;

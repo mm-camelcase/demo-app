@@ -117,9 +117,11 @@ export default {
         // Ensure token is fresh
         await keycloak.updateToken(10);
 
+        //const apiUrl = process.env.VUE_APP_API_URL;
+
         // API request with token
         const response = await axios.get(
-          "https://api.camelcase.club/internal/api/users",
+          process.env.VUE_APP_API_URL,
           {
             headers: {
               Authorization: `Bearer ${keycloak.token}`,
