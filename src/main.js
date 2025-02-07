@@ -5,6 +5,7 @@ import keycloak from "./keycloak";
 
 import { createVuetify } from 'vuetify';
 import 'vuetify/styles'; // Ensure styles are loaded
+import '@mdi/font/css/materialdesignicons.css'; // Import Material Design Icons CSS
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 

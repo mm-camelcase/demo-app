@@ -37,15 +37,18 @@
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
+                <th>Task</th>
+                <th>Completed</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="todo in todos" :key="todo.id">
                 <td>{{ todo.id }}</td>
                 <td>{{ todo.task }}</td>
-                <td>{{ todo.completed }}</td>
+                <td>
+                  <v-icon v-if="todo.completed" color="green">mdi-check</v-icon>
+                  <v-icon v-else color="red">mdi-close</v-icon>
+                </td>
               </tr>
             </tbody>
           </v-table>
