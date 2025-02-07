@@ -12,7 +12,7 @@
       <!-- Main Content -->
       <v-main>
         <v-container class="mt-5">
-          <UserList />
+          <TodoList />
         </v-container>
       </v-main>
 
@@ -32,11 +32,11 @@
 
 <script>
 import { inject, onMounted, ref } from "vue";
-import UserList from "@/components/UserList.vue";
+import TodoList from "@/components/TodoList.vue";
 
 export default {
   name: "HomeView",
-  components: { UserList },
+  components: { TodoList },
   setup() {
     // Inject the Keycloak instance
     const keycloak = inject("keycloak");

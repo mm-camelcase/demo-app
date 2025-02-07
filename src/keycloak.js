@@ -1,14 +1,3 @@
-// import Keycloak from "keycloak-js";
-
-// // Create a Keycloak instance with your configuration
-// const keycloak = new Keycloak({
-//   url: "https://auth.camelcase.club", // Keycloak base URL
-//   realm: "demo-realm", // Keycloak realm name
-//   clientId: "static-app", // Keycloak client ID
-// });
-
-// export default keycloak;
-
 import Keycloak from "keycloak-js";
 
 const isAuthEnabled = process.env.VUE_APP_AUTH_ENABLED === "true";
