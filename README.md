@@ -6,8 +6,8 @@ A simple static page app built with Vue for the purpose of deployment demos.
 
 - In production, the app is protected by Keycloak login.
 - In development mode, authentication is disabled.
-- Backed by a Spring Boot Todo service. See the service here.
-- Part of the AWS infrastructure deployment project. See details here.
+- Backed by a Spring Boot ToDo service. See the service [here](https://github.com/mm-camelcase/todo-service).
+- Part of the AWS infrastructure deployment project. See details [here](https://github.com/mm-camelcase/aws-infra-demo).
 
 
 ## Project Setup
