@@ -4,16 +4,10 @@ A simple static page app built with Vue for the purpose of deployment demos.
 
 <img src="src/assets/app.gif" width="600"/>
 
-- Includes an animated GIF showcasing Keycloak-based login to the app.
-
-- In development mode, authentication is disabled.
-
 - In production, the app is protected by Keycloak login.
-
+- In development mode, authentication is disabled.
 - Backed by a Spring Boot Todo service. See the service here.
-
 - Part of the AWS infrastructure deployment project. See details here.
-
 
 
 ## Project Setup
