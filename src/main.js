@@ -57,7 +57,8 @@ const isAuthEnabled = process.env.VUE_APP_AUTH_ENABLED === 'true';
 
 // Clean init options for PKCE
 const initOptions = isAuthEnabled ? {
-    onLoad: 'check-sso',
+    //onLoad: 'check-sso',
+    onLoad: 'login-required', // Changed from 'check-sso'
     checkLoginIframe: false,
     silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html',
     enableLogging: true  // Enable Keycloak's internal logging
