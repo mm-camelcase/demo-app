@@ -33,27 +33,6 @@ const vuetify = createVuetify({
 
 const isAuthEnabled = process.env.VUE_APP_AUTH_ENABLED === 'true';
 
-// keycloak.init({ onLoad: "login-required" })
-//     .then(() => {
-//         const app = createApp(App);
-//         app.use(router);
-//         app.use(vuetify);
-//         app.provide("keycloak", keycloak); // Inject the Keycloak instance
-//         app.mount("#app");
-//     })
-//     .catch((err) => {
-//         if (!isAuthEnabled) {
-//             console.warn("Keycloak initialization skipped for development mode.");
-//             const app = createApp(App);
-//             app.use(router);
-//             app.use(vuetify);
-//             app.mount("#app");
-//         } else {
-//             console.error("Failed to initialize Keycloak", err);
-//         }
-//     });
-
-
 
 // Clean init options for PKCE
 const initOptions = isAuthEnabled ? {
