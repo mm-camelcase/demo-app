@@ -33,23 +33,60 @@ const vuetify = createVuetify({
 
 const isAuthEnabled = process.env.VUE_APP_AUTH_ENABLED === 'true';
 
-keycloak.init({ onLoad: "login-required" })
-    .then(() => {
+// keycloak.init({ onLoad: "login-required" })
+//     .then(() => {
+//         const app = createApp(App);
+//         app.use(router);
+//         app.use(vuetify);
+//         app.provide("keycloak", keycloak); // Inject the Keycloak instance
+//         app.mount("#app");
+//     })
+//     .catch((err) => {
+//         if (!isAuthEnabled) {
+//             console.warn("Keycloak initialization skipped for development mode.");
+//             const app = createApp(App);
+//             app.use(router);
+//             app.use(vuetify);
+//             app.mount("#app");
+//         } else {
+//             console.error("Failed to initialize Keycloak", err);
+//         }
+//     });
+
+
+
+// Clean init options for PKCE
+const initOptions = isAuthEnabled ? {
+    onLoad: 'check-sso',
+    checkLoginIframe: false,
+    silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html',
+    enableLogging: true  // Enable Keycloak's internal logging
+} : {};
+
+keycloak.init(initOptions)
+    .then((authenticated) => {
+        if (isAuthEnabled && authenticated) {
+            console.log('✅ Authenticated with PKCE');
+            // Set up token refresh
+            setInterval(() => {
+                keycloak.updateToken(30).catch(() => keycloak.login());
+            }, 30000);
+        }
+        
         const app = createApp(App);
         app.use(router);
         app.use(vuetify);
-        app.provide("keycloak", keycloak); // Inject the Keycloak instance
+        app.provide("keycloak", keycloak);
         app.mount("#app");
     })
     .catch((err) => {
-        if (!isAuthEnabled) {
-            console.warn("Keycloak initialization skipped for development mode.");
-            const app = createApp(App);
-            app.use(router);
-            app.use(vuetify);
-            app.mount("#app");
-        } else {
-            console.error("Failed to initialize Keycloak", err);
-        }
+        console.error("Keycloak init failed:", err);
+        // Mount app anyway
+        const app = createApp(App);
+        app.use(router);
+        app.use(vuetify);
+        app.provide("keycloak", keycloak);
+        app.mount("#app");
     });
-
+        
+  
