@@ -47,7 +47,7 @@ export default {
       if (keycloak && keycloak.authenticated) {
         username.value = keycloak.tokenParsed?.given_name;
       } else {
-        console.error("Keycloak instance is not available or not authenticated.");
+        console.info("Keycloak instance is not available or not authenticated.");
       }
     });
 
